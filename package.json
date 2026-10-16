@@ -1,0 +1,16 @@
+{
+  "name": "realm-hopper",
+  "productName": "Realm Hopper",
+  "version": "2.0.0",
+  "description": "A high-fidelity three-realm arcade crossing game for macOS.",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "package:mac": "electron-packager . 'Realm Hopper' --platform=darwin --arch=arm64 --icon=assets/icon.icns --app-bundle-id=com.chrisdimarco.realmhopper --app-category-type=public.app-category.games --out=dist --overwrite --prune=true --ignore='^/dist($|/)' && codesign --force --deep --sign - 'dist/Realm Hopper-darwin-arm64/Realm Hopper.app' && codesign --verify --deep --strict 'dist/Realm Hopper-darwin-arm64/Realm Hopper.app'"
+  },
+  "devDependencies": {
+    "@electron/packager": "20.2.1",
+    "electron": "37.2.6"
+  }
+}

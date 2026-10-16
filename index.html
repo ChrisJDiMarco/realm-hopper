@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>Realm Hopper</title>
+    <link rel="icon" href="assets/icon.svg" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-daypart="morning">
+    <main id="app">
+      <canvas id="game" aria-label="Realm Hopper game board"></canvas>
+
+      <header class="hud glass">
+        <div class="brand-block">
+          <div class="crest" aria-hidden="true"><span>R</span></div>
+          <div>
+            <div class="eyebrow">THREE REALMS ARCADE</div>
+            <div class="brand">REALM <b>HOPPER</b></div>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat"><span>SCORE</span><strong id="score">000000</strong></div>
+          <div class="stat"><span>LEVEL</span><strong id="level">01 / 10</strong></div>
+          <div class="stat"><span>COMBO</span><strong id="combo">×1.0</strong></div>
+          <div class="stat lives-stat"><span>LIVES</span><strong id="lives">● ● ●</strong></div>
+        </div>
+        <div class="daypart-control" aria-label="Lighting time">
+          <span>LIGHT</span>
+          <div class="segments">
+            <button class="day-btn active" data-daypart="morning" title="Morning lighting">MORN</button>
+            <button class="day-btn" data-daypart="afternoon" title="Afternoon lighting">NOON</button>
+            <button class="day-btn" data-daypart="night" title="Night lighting">NIGHT</button>
+            <button class="sound-btn" id="sound-button" title="Toggle sound">♪</button>
+          </div>
+        </div>
+      </header>
+
+      <aside class="realm-rail glass" aria-label="Realm selector">
+        <div class="rail-label">ALTITUDE</div>
+        <button class="realm-button" data-realm="1">
+          <i class="realm-icon sky-icon">☁</i><span>SKY</span><kbd>E</kbd>
+        </button>
+        <div class="rail-line"><i></i></div>
+        <button class="realm-button active" data-realm="0">
+          <i class="realm-icon surface-icon">⌂</i><span>SURFACE</span><kbd>•</kbd>
+        </button>
+        <div class="rail-line"><i></i></div>
+        <button class="realm-button" data-realm="-1">
+          <i class="realm-icon water-icon">≈</i><span>DEPTHS</span><kbd>Q</kbd>
+        </button>
+        <div class="depth-meter"><i id="depth-indicator"></i></div>
+      </aside>
+
+      <aside class="mission-panel glass">
+        <div class="panel-heading"><span>LIVE MISSION</span><b id="mode-label">ARCADE</b></div>
+        <h2 id="level-name">Meadow Run</h2>
+        <p id="mission-copy">Collect every realm rune, then reach the winner circle.</p>
+        <div class="mission-tags"><b id="weather-tag">CLEAR</b><b id="rule-tag">STEADY FLOW</b></div>
+        <div class="rune-row" id="rune-row"></div>
+        <div class="mission-timer"><span>TIME</span><div><i id="timer-fill"></i></div><b id="timer-text">60</b></div>
+        <div class="power-status" id="power-status"><span>POWER</span><strong>NONE</strong></div>
+        <div class="ability-grid">
+          <div><span>SHIFT</span><i><b id="shift-fill"></b></i><strong id="shift-text">READY</strong></div>
+          <div><span>DASH</span><i><b id="dash-fill"></b></i><strong id="dash-text">2 / 2</strong></div>
+        </div>
+      </aside>
+
+      <aside class="winner-panel glass">
+        <div class="panel-heading"><span>WINNER CIRCLE</span><b id="champ-count">0 / 10</b></div>
+        <div class="champion-strip" id="champion-strip">
+          <div class="empty-crown">♕</div>
+          <p>Your cheering squad grows with every realm conquered.</p>
+        </div>
+      </aside>
+
+      <div class="level-track glass" aria-label="Level progress">
+        <span>REALM MAP</span>
+        <div id="level-dots"></div>
+        <b class="best-score" id="best-score">BEST 000000</b>
+      </div>
+
+      <footer class="controls glass">
+        <div><kbd>WASD</kbd><span>HOP</span></div>
+        <div><kbd>Q</kbd><span>DIVE</span></div>
+        <div><kbd>E</kbd><span>RISE</span></div>
+        <div><kbd>SPACE</kbd><span>DASH</span></div>
+        <div><kbd>P</kbd><span>PAUSE</span></div>
+      </footer>
+
+      <section class="screen visible" id="start-screen">
+        <div class="start-card">
+          <div class="title-mark"><span>R</span></div>
+          <p class="kicker">AN ORIGINAL THREE-REALM CROSSING GAME</p>
+          <h1>REALM<br /><em>HOPPER</em><sup>2.0</sup></h1>
+          <p class="lede">Roads are only the beginning. Dive through currents, hop the surface, then rise above storms in one continuous run.</p>
+          <div class="feature-ribbon"><span>3 REALMS</span><span>10 EXPEDITIONS</span><span>20 HAZARD LAYERS</span><span>CHAMPION SQUAD</span></div>
+          <div class="mode-grid">
+            <button class="mode-card" data-mode="easy">
+              <i>01</i><b>TRAIL</b><span>5 lives · calm traffic<br />Generous time</span><small>LEARN THE REALMS</small>
+            </button>
+            <button class="mode-card selected" data-mode="arcade">
+              <i>02</i><b>ARCADE</b><span>3 lives · full speed<br />Classic pressure</span><small>RECOMMENDED</small>
+            </button>
+            <button class="mode-card" data-mode="brutal">
+              <i>03</i><b>WILDS</b><span>2 lives · fierce hazards<br />Tight clock</span><small>NO MERCY</small>
+            </button>
+          </div>
+          <button id="start-button" class="primary-button"><span>BEGIN THE CROSSING</span><b>→</b></button>
+          <p class="fine-print">checkpoints · near-miss scoring · reactive weather · tactical abilities · persistent records</p>
+          <button class="reset-button" id="reset-button">RESET LOCAL RECORDS</button>
+        </div>
+      </section>
+
+      <section class="screen" id="message-screen">
+        <div class="message-card">
+          <p class="kicker" id="message-kicker">REALM CLEARED</p>
+          <h2 id="message-title">Crossing Complete</h2>
+          <div class="message-score" id="message-score">+5,000</div>
+          <p id="message-copy">A new champion has joined your winner circle.</p>
+          <button id="continue-button" class="primary-button"><span>CONTINUE</span><b>→</b></button>
+        </div>
+      </section>
+
+      <div id="toast-layer" aria-live="polite"></div>
+      <div class="vignette"></div>
+      <div class="scanlines"></div>
+    </main>
+    <script src="game.js"></script>
+  </body>
+</html>
